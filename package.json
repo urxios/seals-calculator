@@ -1,0 +1,15 @@
+{
+  "name": "dmowiki-seals-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Versao estatica da calculadora de selos do DMO Wiki.",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "build:catalog": "node scripts/build-catalog.js",
+    "test": "node --test",
+    "check": "node --check assets/planner.js && node --check assets/local-api.js && node --check assets/seal-card-date.js && node --check assets/seals-pdf.js && node --check assets/seals.js && node --check assets/core.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

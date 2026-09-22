@@ -1,0 +1,1413 @@
+:root {
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --card-border: #a2a9b1;
+    --panel-bg: #ffffff;
+    --surface-2: #f1f3f5;
+    --surface-3: #eaecf0;
+    --surface-accent: #eaecf0;
+    --input-bg: #ffffff;
+    --input-border: #a2a9b1;
+    --primary: #3366cc;
+    --primary-dark: #2a4b8d;
+    --button-text: #202122;
+    --text: #202122;
+    --text-muted: #54595d;
+    --accent: #3366cc;
+    --accent-muted: #eaecf0;
+    --danger: #b32424;
+    --danger-bg: #fbeaea;
+    --danger-border: #d33;
+    --warning: #8a5a00;
+    --warning-bg: #fff4d6;
+    --success: #117a37;
+    --success-bg: #eaf6ee;
+    --control-radius: 10px;
+    --tone-at-bg: #fff2e8;
+    --tone-at-border: #f0b287;
+    --tone-at-fg: #9a3412;
+    --tone-hp-bg: #fdecec;
+    --tone-hp-border: #e89b9b;
+    --tone-hp-fg: #a61b1b;
+    --tone-ds-bg: #eaf3ff;
+    --tone-ds-border: #95b8ef;
+    --tone-ds-fg: #1d4f91;
+    --tone-de-bg: #eef4f5;
+    --tone-de-border: #9eb9bf;
+    --tone-de-fg: #34505a;
+    --tone-ct-bg: #fff4d8;
+    --tone-ct-border: #e3c672;
+    --tone-ct-fg: #8a5a00;
+    --tone-ev-bg: #f3ecff;
+    --tone-ev-border: #b7a0ea;
+    --tone-ev-fg: #5b3a9e;
+    --tone-bl-bg: #e8f7ee;
+    --tone-bl-border: #96d1ac;
+    --tone-bl-fg: #246a44;
+    --tone-ht-bg: #e9f2ff;
+    --tone-ht-border: #9dbdff;
+    --tone-ht-fg: #274f98;
+    --tone-la-bg: #eaf3ff;
+    --tone-la-border: #95b8ef;
+    --tone-la-fg: #1d4f91;
+    --tone-na-bg: #e8f7ee;
+    --tone-na-border: #96d1ac;
+    --tone-na-fg: #246a44;
+    --tone-kdmo-bg: #f3ecff;
+    --tone-kdmo-border: #b7a0ea;
+    --tone-kdmo-fg: #5b3a9e;
+    --overlay: rgba(32, 33, 34, 0.36);
+    --dropdown-bg: #ffffff;
+    --dropdown-text: #202122;
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --tone-at-bg: #3a2418;
+    --tone-at-border: #a5663a;
+    --tone-at-fg: #ffbf8d;
+    --tone-hp-bg: #3b1e22;
+    --tone-hp-border: #b86169;
+    --tone-hp-fg: #ffb3bc;
+    --tone-ds-bg: #182b40;
+    --tone-ds-border: #4573aa;
+    --tone-ds-fg: #9bc5ff;
+    --tone-de-bg: #1e2a2e;
+    --tone-de-border: #58727a;
+    --tone-de-fg: #b8d0d7;
+    --tone-ct-bg: #3b3118;
+    --tone-ct-border: #a88c3b;
+    --tone-ct-fg: #f0cf7a;
+    --tone-ev-bg: #2e2342;
+    --tone-ev-border: #7d64bb;
+    --tone-ev-fg: #cdbaff;
+    --tone-bl-bg: #1d3125;
+    --tone-bl-border: #4f8a63;
+    --tone-bl-fg: #aee3bc;
+    --tone-ht-bg: #1a2740;
+    --tone-ht-border: #5575b8;
+    --tone-ht-fg: #a9c2ff;
+    --tone-la-bg: #182b40;
+    --tone-la-border: #4573aa;
+    --tone-la-fg: #9bc5ff;
+    --tone-na-bg: #1d3125;
+    --tone-na-border: #4f8a63;
+    --tone-na-fg: #aee3bc;
+    --tone-kdmo-bg: #2e2342;
+    --tone-kdmo-border: #7d64bb;
+    --tone-kdmo-fg: #cdbaff;
+}
+
+html,
+body {
+    background: var(--bg) !important;
+    background-color: var(--bg) !important;
+    background-image: none !important;
+    color: var(--text) !important;
+    scroll-behavior: auto !important;
+}
+
+html::before,
+html::after,
+body::before,
+body::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    background-image: none !important;
+    filter: none !important;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+    line-height: 1.5 !important;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:not(.ghost-btn):not(.primary-btn):not(.topbar-nav__link):hover {
+    color: var(--primary-dark);
+}
+
+.background-gradient,
+.panel-orb,
+.attribute-tracker-dock,
+.template-level-popover,
+.hero-card--profile::after,
+.tamer-stage::before,
+.chart-bar__track::after {
+    display: none !important;
+}
+
+.page,
+.page--seals,
+.page--tamer,
+.page--profile {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+.content,
+main,
+header,
+section,
+aside,
+footer,
+.hero-card__content,
+.topbar-tools,
+.topbar-nav,
+.tabs,
+.tab-row,
+.theme-grid,
+.attribute-filter,
+.profile-summary-grid,
+.table-card__meta,
+.compare-metrics,
+.calculator-pills,
+.calculator-summary-grid,
+.calculator-quiet-stats,
+.account-seal-stats {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+.user-panel,
+.admin-panel {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    backdrop-filter: none !important;
+}
+
+.user-panel__toggle,
+.admin-panel__toggle {
+    background: var(--panel-bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--card-border) !important;
+    backdrop-filter: none !important;
+}
+
+.theme-toggle--floating {
+    background: var(--surface-2) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--card-border) !important;
+    backdrop-filter: none !important;
+    border-radius: var(--control-radius) !important;
+}
+
+.topbar-nav {
+    background: var(--surface-2) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--control-radius) !important;
+}
+
+.topbar-card {
+    backdrop-filter: none !important;
+}
+
+.user-panel,
+.admin-panel,
+.topbar-card,
+.hero-card,
+.table-card,
+.auth-card,
+.modal__content,
+.profile-hero-card,
+.profile-summary-stat,
+.profile-form-section,
+.profile-toggle,
+.profile-sidecard,
+.profile-sidecard__top,
+.profile-card,
+.seal-card,
+.account-seal-card,
+.admin-section,
+.user-panel__stat,
+.account-total,
+.attribute-card,
+.calculator-pill,
+.calculator-summary-card,
+.calculator-quiet-stat,
+.compare-card,
+.compare-pill,
+.compare-attr,
+.peer-chip,
+.chart-section,
+.profile-avatar-shell,
+.user-panel__avatar-shell,
+.admin-panel__crest,
+.theme-pill,
+.digimon-evolution-diagram,
+.digimon-card__switcher,
+.digimon-rank-option__frame,
+.digimon-relation-tag,
+.toast,
+.account-manager__section,
+.account-manager__section--danger,
+.tamer-stage__avatar-card,
+.tamer-stage__slot,
+.tamer-stage-shell,
+.tamer-summary-card,
+.tamer-summary-block,
+.equipment-catalog-card,
+.equipment-card,
+.digivice-card,
+.title-card,
+.import-template-card,
+.calculator-warning,
+.calculator-inline-note,
+.table-wrapper,
+.search-field,
+.id-row,
+.compare-peers,
+.empty-state,
+.level-card,
+.modal__body,
+.admin-user-list,
+.user-panel__logged-copy,
+.user-panel__form-head,
+.chart-bar__track,
+.chart-section__cap,
+.meta-pill,
+.calculator-tooltip-chip,
+.template-account-row,
+.calculator-summary-card--primary,
+.calculator-quiet-stat--highlight,
+.calculator-quiet-stat--success,
+.select-wrapper,
+.account-manager__warning {
+    background: var(--card-bg) !important;
+    background-image: none !important;
+    border: 1px solid var(--card-border) !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+    border-radius: 2px !important;
+}
+
+.compare-peers,
+.table-wrapper,
+.modal__body {
+    padding: 0.75rem !important;
+}
+
+.select-wrapper,
+.search-field,
+.id-row {
+    border-radius: var(--control-radius) !important;
+}
+
+.topbar-nav__link,
+.filter-pill,
+.tab-btn,
+.account-tab,
+.ghost-btn,
+.chip-btn,
+.icon-btn,
+.theme-pill,
+.peer-chip button,
+.select-wrapper select,
+.primary-btn,
+.primary-btn--outline,
+.list-pagination__button,
+.modal__close,
+button,
+[type="button"],
+[type="submit"] {
+    background: var(--surface-2) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--control-radius) !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+}
+
+.topbar-nav__link:hover,
+.filter-pill:hover,
+.tab-btn:hover,
+.account-tab:hover,
+.ghost-btn:hover,
+.chip-btn:hover,
+.icon-btn:hover,
+.theme-pill:hover,
+.primary-btn:hover,
+.primary-btn--outline:hover,
+.list-pagination__button:hover:not(:disabled),
+.modal__close:hover,
+button:hover:not(:disabled),
+[type="button"]:hover:not(:disabled),
+[type="submit"]:hover:not(:disabled) {
+    background: var(--surface-3) !important;
+    color: var(--text) !important;
+    border-color: var(--text-muted) !important;
+}
+
+.topbar-nav__link--active,
+.filter-pill.active,
+.tab-btn.active,
+.account-tab.active,
+.theme-pill.active,
+.meta-pill--accent,
+.attribute-card.active,
+.seal-card--drag-over,
+.digimon-rank-option input:checked + .digimon-rank-option__frame {
+    background: var(--surface-3) !important;
+    color: var(--text) !important;
+    border-color: var(--text-muted) !important;
+}
+
+.ghost-btn--danger,
+.ghost-btn--danger-outline,
+.chip-btn--danger,
+.account-manager__section--danger .ghost-btn,
+.account-manager__section--danger [type="submit"] {
+    background: var(--danger-bg) !important;
+    color: var(--danger) !important;
+    border-color: var(--danger-border) !important;
+}
+
+.ghost-btn--danger:hover,
+.ghost-btn--danger-outline:hover,
+.chip-btn--danger:hover,
+.account-manager__section--danger .ghost-btn:hover,
+.account-manager__section--danger [type="submit"]:hover {
+    background: #f3d3d3 !important;
+    color: var(--danger) !important;
+    border-color: var(--danger) !important;
+}
+
+.profile-status--success,
+.toast--success,
+.status--success {
+    color: var(--success) !important;
+}
+
+.profile-status--error,
+.toast--error,
+.status--error {
+    color: var(--danger) !important;
+}
+
+input,
+select,
+textarea,
+.form-control input,
+.form-control select,
+.admin-actions input,
+.modal textarea,
+.search-input,
+.calculator-advanced summary,
+.id-row input,
+.account-tab__input,
+.inline-quantity-input {
+    background: var(--input-bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: var(--control-radius) !important;
+    background-image: none !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-control input:focus,
+.form-control select:focus,
+.modal textarea:focus,
+.search-input:focus {
+    outline: 1px solid var(--primary) !important;
+    outline-offset: 0 !important;
+}
+
+input[readonly],
+select[readonly],
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background: var(--surface-2) !important;
+}
+
+.modal__backdrop,
+.loader {
+    background: var(--overlay) !important;
+}
+
+.loader {
+    opacity: 1 !important;
+}
+
+.loader__spinner {
+    border-color: var(--surface-3) !important;
+    border-top-color: var(--text) !important;
+}
+
+.eyebrow,
+.section-meta,
+.subtitle,
+.compare-pill span,
+.compare-attr span,
+.calculator-pill__label,
+.calculator-quiet-stat__label,
+.chart-bar__value span,
+.meta-pill span,
+.profile-hero-card__label,
+.user-panel__email,
+.user-panel__logged-copy span,
+.user-panel__form-head span,
+.admin-section__head span {
+    color: var(--text-muted) !important;
+}
+
+.profile-summary-stat strong,
+.profile-hero-card strong,
+.attribute-card__value,
+.calculator-pill__value,
+.calculator-quiet-stat__value,
+.chart-bar__value strong,
+.user-panel__stat strong,
+.compare-card__title,
+.seal-card__header h3,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+th,
+td,
+label,
+strong {
+    color: var(--text) !important;
+}
+
+table,
+thead,
+tbody,
+tr,
+th,
+td {
+    background: transparent !important;
+}
+
+th,
+td {
+    border-color: var(--card-border) !important;
+}
+
+tbody tr:hover {
+    background: var(--surface-2) !important;
+}
+
+.chart-bar__fill {
+    background: var(--text-muted) !important;
+}
+
+.compare-pill,
+.compare-attr,
+.peer-chip,
+.chart-section__cap,
+.digimon-relation-tag,
+.calculator-summary-card--primary,
+.calculator-quiet-stat--highlight,
+.calculator-quiet-stat--success {
+    color: var(--text) !important;
+    border-color: var(--card-border) !important;
+}
+
+.list-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.list-pagination__summary {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.list-pagination__controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+#templateList,
+#accountSealList,
+#compareCards {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+}
+
+[data-attribute="AT"] {
+    --tone-bg: var(--tone-at-bg);
+    --tone-border: var(--tone-at-border);
+    --tone-fg: var(--tone-at-fg);
+}
+
+[data-attribute="HP"] {
+    --tone-bg: var(--tone-hp-bg);
+    --tone-border: var(--tone-hp-border);
+    --tone-fg: var(--tone-hp-fg);
+}
+
+[data-attribute="DS"] {
+    --tone-bg: var(--tone-ds-bg);
+    --tone-border: var(--tone-ds-border);
+    --tone-fg: var(--tone-ds-fg);
+}
+
+[data-attribute="DE"] {
+    --tone-bg: var(--tone-de-bg);
+    --tone-border: var(--tone-de-border);
+    --tone-fg: var(--tone-de-fg);
+}
+
+[data-attribute="CT"] {
+    --tone-bg: var(--tone-ct-bg);
+    --tone-border: var(--tone-ct-border);
+    --tone-fg: var(--tone-ct-fg);
+}
+
+[data-attribute="EV"] {
+    --tone-bg: var(--tone-ev-bg);
+    --tone-border: var(--tone-ev-border);
+    --tone-fg: var(--tone-ev-fg);
+}
+
+[data-attribute="BL"] {
+    --tone-bg: var(--tone-bl-bg);
+    --tone-border: var(--tone-bl-border);
+    --tone-fg: var(--tone-bl-fg);
+}
+
+[data-attribute="HT"] {
+    --tone-bg: var(--tone-ht-bg);
+    --tone-border: var(--tone-ht-border);
+    --tone-fg: var(--tone-ht-fg);
+}
+
+[data-server="la"] {
+    --tone-bg: var(--tone-la-bg);
+    --tone-border: var(--tone-la-border);
+    --tone-fg: var(--tone-la-fg);
+}
+
+[data-server="na"] {
+    --tone-bg: var(--tone-na-bg);
+    --tone-border: var(--tone-na-border);
+    --tone-fg: var(--tone-na-fg);
+}
+
+[data-server="kdmo"] {
+    --tone-bg: var(--tone-kdmo-bg);
+    --tone-border: var(--tone-kdmo-border);
+    --tone-fg: var(--tone-kdmo-fg);
+}
+
+.attribute-card[data-attribute],
+.attribute-badge[data-attribute],
+.compare-attr[data-attribute],
+.filter-pill[data-attribute]:not([data-attribute="TODOS"]),
+.filter-pill[data-server],
+.meta-pill[data-server] {
+    background: var(--tone-bg) !important;
+    border-color: var(--tone-border) !important;
+    color: var(--tone-fg) !important;
+}
+
+.attribute-card[data-attribute] .attribute-card__label,
+.attribute-card[data-attribute] .attribute-card__value,
+.attribute-card[data-attribute] .attribute-card__meta,
+.attribute-card[data-attribute] .currency-text,
+.attribute-badge[data-attribute],
+.compare-attr[data-attribute] span,
+.compare-attr[data-attribute] strong,
+.filter-pill[data-attribute]:not([data-attribute="TODOS"]),
+.filter-pill[data-server],
+.meta-pill[data-server] span,
+.meta-pill[data-server] strong {
+    color: var(--tone-fg) !important;
+}
+
+.filter-pill[data-attribute]:not([data-attribute="TODOS"]).active,
+.filter-pill[data-server].active,
+.attribute-card[data-attribute].active {
+}
+
+@media (max-width: 760px) {
+    .list-pagination {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+html[data-theme="aurora"] {
+    color-scheme: light;
+    --tone-at-bg: #fff1e7;
+    --tone-at-border: #f3b59c;
+    --tone-at-fg: #b84f2f;
+    --tone-hp-bg: #fff0f3;
+    --tone-hp-border: #f1a2b2;
+    --tone-hp-fg: #be4563;
+    --tone-ds-bg: #e9f9fb;
+    --tone-ds-border: #8fd7da;
+    --tone-ds-fg: #157e82;
+    --tone-de-bg: #eef3ff;
+    --tone-de-border: #b4c0f6;
+    --tone-de-fg: #4b60b8;
+    --tone-ct-bg: #fff3d9;
+    --tone-ct-border: #e9c177;
+    --tone-ct-fg: #a56810;
+    --tone-ev-bg: #f4ecff;
+    --tone-ev-border: #c8b0f1;
+    --tone-ev-fg: #7550ba;
+    --tone-bl-bg: #e9faef;
+    --tone-bl-border: #9fd5af;
+    --tone-bl-fg: #27754a;
+    --tone-ht-bg: #eef5ff;
+    --tone-ht-border: #aec9ff;
+    --tone-ht-fg: #3c68c9;
+    --tone-la-bg: #e8f4ff;
+    --tone-la-border: #99c5f0;
+    --tone-la-fg: #2668a8;
+    --tone-na-bg: #e9faef;
+    --tone-na-border: #9fd5af;
+    --tone-na-fg: #27754a;
+    --tone-kdmo-bg: #f4ecff;
+    --tone-kdmo-border: #c8b0f1;
+    --tone-kdmo-fg: #7550ba;
+}
+
+html[data-theme="aurora"],
+html[data-theme="aurora"] body {
+    background: #fffaf6 !important;
+    background-attachment: fixed !important;
+}
+
+html[data-theme="aurora"] .background-gradient,
+html[data-theme="aurora"] .panel-orb,
+html[data-theme="aurora"] .hero-card--profile::after,
+html[data-theme="aurora"] .tamer-stage::before,
+html[data-theme="aurora"] .chart-bar__track::after {
+    display: block !important;
+}
+
+html[data-theme="aurora"] .background-gradient {
+    background: none !important;
+    filter: blur(72px) !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="aurora"] .panel-orb--user {
+    background: none !important;
+    opacity: 0.18 !important;
+}
+
+html[data-theme="aurora"] .panel-orb--admin {
+    background: none !important;
+    opacity: 0.16 !important;
+}
+
+html[data-theme="aurora"] .user-panel,
+html[data-theme="aurora"] .admin-panel,
+html[data-theme="aurora"] .topbar-card,
+html[data-theme="aurora"] .hero-card,
+html[data-theme="aurora"] .table-card,
+html[data-theme="aurora"] .auth-card,
+html[data-theme="aurora"] .modal__content,
+html[data-theme="aurora"] .profile-hero-card,
+html[data-theme="aurora"] .profile-summary-stat,
+html[data-theme="aurora"] .profile-form-section,
+html[data-theme="aurora"] .profile-sidecard,
+html[data-theme="aurora"] .profile-sidecard__top,
+html[data-theme="aurora"] .profile-card,
+html[data-theme="aurora"] .seal-card,
+html[data-theme="aurora"] .account-seal-card,
+html[data-theme="aurora"] .admin-section,
+html[data-theme="aurora"] .user-panel__stat,
+html[data-theme="aurora"] .account-total,
+html[data-theme="aurora"] .attribute-card,
+html[data-theme="aurora"] .calculator-pill,
+html[data-theme="aurora"] .calculator-summary-card,
+html[data-theme="aurora"] .calculator-quiet-stat,
+html[data-theme="aurora"] .compare-card,
+html[data-theme="aurora"] .compare-pill,
+html[data-theme="aurora"] .compare-attr,
+html[data-theme="aurora"] .peer-chip,
+html[data-theme="aurora"] .chart-section,
+html[data-theme="aurora"] .profile-avatar-shell,
+html[data-theme="aurora"] .user-panel__avatar-shell,
+html[data-theme="aurora"] .admin-panel__crest,
+html[data-theme="aurora"] .theme-pill,
+html[data-theme="aurora"] .digimon-evolution-diagram,
+html[data-theme="aurora"] .digimon-card__switcher,
+html[data-theme="aurora"] .digimon-rank-option__frame,
+html[data-theme="aurora"] .digimon-relation-tag,
+html[data-theme="aurora"] .toast,
+html[data-theme="aurora"] .account-manager__section,
+html[data-theme="aurora"] .account-manager__section--danger,
+html[data-theme="aurora"] .tamer-stage__avatar-card,
+html[data-theme="aurora"] .tamer-stage__slot,
+html[data-theme="aurora"] .tamer-stage-shell,
+html[data-theme="aurora"] .tamer-summary-card,
+html[data-theme="aurora"] .tamer-summary-block,
+html[data-theme="aurora"] .equipment-catalog-card,
+html[data-theme="aurora"] .equipment-card,
+html[data-theme="aurora"] .digivice-card,
+html[data-theme="aurora"] .title-card,
+html[data-theme="aurora"] .import-template-card,
+html[data-theme="aurora"] .calculator-warning,
+html[data-theme="aurora"] .calculator-inline-note,
+html[data-theme="aurora"] .table-wrapper,
+html[data-theme="aurora"] .search-field,
+html[data-theme="aurora"] .id-row,
+html[data-theme="aurora"] .compare-peers,
+html[data-theme="aurora"] .empty-state,
+html[data-theme="aurora"] .level-card,
+html[data-theme="aurora"] .modal__body,
+html[data-theme="aurora"] .admin-user-list,
+html[data-theme="aurora"] .user-panel__logged-copy,
+html[data-theme="aurora"] .user-panel__form-head,
+html[data-theme="aurora"] .chart-bar__track,
+html[data-theme="aurora"] .chart-section__cap,
+html[data-theme="aurora"] .meta-pill,
+html[data-theme="aurora"] .calculator-tooltip-chip,
+html[data-theme="aurora"] .template-account-row,
+html[data-theme="aurora"] .calculator-summary-card--primary,
+html[data-theme="aurora"] .calculator-quiet-stat--highlight,
+html[data-theme="aurora"] .calculator-quiet-stat--success,
+html[data-theme="aurora"] .select-wrapper,
+html[data-theme="aurora"] .account-manager__warning {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-color: rgba(231, 111, 81, 0.16) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 18px !important;
+}
+
+html[data-theme="aurora"] .topbar-nav,
+html[data-theme="aurora"] .theme-toggle--floating,
+html[data-theme="aurora"] .user-panel__toggle,
+html[data-theme="aurora"] .admin-panel__toggle,
+html[data-theme="aurora"] .topbar-nav__link,
+html[data-theme="aurora"] .filter-pill,
+html[data-theme="aurora"] .tab-btn,
+html[data-theme="aurora"] .account-tab,
+html[data-theme="aurora"] .ghost-btn,
+html[data-theme="aurora"] .chip-btn,
+html[data-theme="aurora"] .icon-btn,
+html[data-theme="aurora"] .theme-pill,
+html[data-theme="aurora"] .peer-chip button,
+html[data-theme="aurora"] .select-wrapper select,
+html[data-theme="aurora"] .primary-btn,
+html[data-theme="aurora"] .primary-btn--outline,
+html[data-theme="aurora"] .list-pagination__button,
+html[data-theme="aurora"] .modal__close,
+html[data-theme="aurora"] button,
+html[data-theme="aurora"] [type="button"],
+html[data-theme="aurora"] [type="submit"] {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-color: rgba(231, 111, 81, 0.16) !important;
+    border-radius: 16px !important;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease !important;
+}
+
+html[data-theme="aurora"] .topbar-nav__link:hover,
+html[data-theme="aurora"] .filter-pill:hover,
+html[data-theme="aurora"] .tab-btn:hover,
+html[data-theme="aurora"] .account-tab:hover,
+html[data-theme="aurora"] .ghost-btn:hover,
+html[data-theme="aurora"] .chip-btn:hover,
+html[data-theme="aurora"] .icon-btn:hover,
+html[data-theme="aurora"] .theme-pill:hover,
+html[data-theme="aurora"] .primary-btn:hover,
+html[data-theme="aurora"] .primary-btn--outline:hover,
+html[data-theme="aurora"] .list-pagination__button:hover:not(:disabled),
+html[data-theme="aurora"] .modal__close:hover,
+html[data-theme="aurora"] button:hover:not(:disabled),
+html[data-theme="aurora"] [type="button"]:hover:not(:disabled),
+html[data-theme="aurora"] [type="submit"]:hover:not(:disabled) {
+    background: rgba(255, 245, 241, 1) !important;
+    border-color: rgba(231, 111, 81, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="aurora"] .topbar-nav__link--active,
+html[data-theme="aurora"] .filter-pill.active,
+html[data-theme="aurora"] .tab-btn.active,
+html[data-theme="aurora"] .account-tab.active,
+html[data-theme="aurora"] .theme-pill.active,
+html[data-theme="aurora"] .meta-pill--accent,
+html[data-theme="aurora"] .attribute-card.active,
+html[data-theme="aurora"] .seal-card--drag-over,
+html[data-theme="aurora"] .digimon-rank-option input:checked + .digimon-rank-option__frame {
+    background: rgba(231, 111, 81, 0.16) !important;
+    border-color: rgba(15, 157, 154, 0.24) !important;
+}
+
+html[data-theme="aurora"] input,
+html[data-theme="aurora"] select,
+html[data-theme="aurora"] textarea,
+html[data-theme="aurora"] .form-control input,
+html[data-theme="aurora"] .form-control select,
+html[data-theme="aurora"] .admin-actions input,
+html[data-theme="aurora"] .modal textarea,
+html[data-theme="aurora"] .search-input,
+html[data-theme="aurora"] .calculator-advanced summary,
+html[data-theme="aurora"] .id-row input,
+html[data-theme="aurora"] .account-tab__input,
+html[data-theme="aurora"] .inline-quantity-input {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(231, 111, 81, 0.18) !important;
+    border-radius: 14px !important;
+}
+
+html[data-theme="aurora"] .topbar-card,
+html[data-theme="aurora"] .hero-card,
+html[data-theme="aurora"] .auth-card {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+html[data-theme="aurora"] .topbar-card::before,
+html[data-theme="aurora"] .hero-card::before,
+html[data-theme="aurora"] .auth-card::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: none !important;
+    pointer-events: none !important;
+}
+
+body.theme-switching *,
+body.theme-switching *::before,
+body.theme-switching *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+html[data-theme="light"] {
+    --pbe-surface: rgba(255, 255, 255, 0.92);
+    --pbe-surface-strong: #ffffff;
+    --pbe-surface-soft: #f8fbff;
+    --pbe-border: #dbe4f1;
+    --pbe-border-strong: #c7d6e8;
+    --pbe-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+    --pbe-shadow-soft: 0 12px 24px rgba(15, 23, 42, 0.06);
+    --pbe-primary-shadow: 0 14px 28px rgba(10, 54, 175, 0.18);
+    --pbe-chip: #eff6ff;
+    --pbe-chip-hover: #e6f0ff;
+    --pbe-chip-active-text: #ffffff;
+    --pbe-header-start: #4995dd;
+    --pbe-header-end: #0a36af;
+    --pbe-hero-shadow: 0 22px 40px rgba(10, 54, 175, 0.18);
+    --pbe-focus: rgba(73, 149, 221, 0.22);
+    --pbe-stripe: rgba(73, 149, 221, 0.06);
+    --pbe-floating-bg: rgba(255, 255, 255, 0.88);
+}
+
+html[data-theme="dark"] {
+    --pbe-surface: rgba(8, 15, 29, 0.92);
+    --pbe-surface-strong: #0d1728;
+    --pbe-surface-soft: #132036;
+    --pbe-border: #213147;
+    --pbe-border-strong: #2d4462;
+    --pbe-shadow: 0 20px 42px rgba(2, 6, 23, 0.46);
+    --pbe-shadow-soft: 0 14px 28px rgba(2, 6, 23, 0.38);
+    --pbe-primary-shadow: 0 16px 30px rgba(37, 99, 235, 0.24);
+    --pbe-chip: rgba(148, 163, 184, 0.12);
+    --pbe-chip-hover: rgba(148, 163, 184, 0.18);
+    --pbe-chip-active-text: #eff6ff;
+    --pbe-header-start: #163865;
+    --pbe-header-end: #0b56d5;
+    --pbe-hero-shadow: 0 24px 42px rgba(2, 6, 23, 0.48);
+    --pbe-focus: rgba(59, 130, 246, 0.24);
+    --pbe-stripe: rgba(59, 130, 246, 0.08);
+    --pbe-floating-bg: rgba(13, 23, 40, 0.9);
+}
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+    background-attachment: fixed !important;
+}
+
+html[data-theme="light"],
+html[data-theme="light"] body {
+    background: var(--bg) !important;
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+    background: var(--bg) !important;
+}
+
+html[data-theme="light"] body,
+html[data-theme="dark"] body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+html[data-theme="light"] .background-gradient,
+html[data-theme="dark"] .background-gradient {
+    display: block !important;
+    opacity: 1 !important;
+    filter: blur(92px) !important;
+}
+
+html[data-theme="light"] .background-gradient {
+    background: none !important;
+}
+
+html[data-theme="dark"] .background-gradient {
+    background: none !important;
+}
+
+html[data-theme="light"] :is(
+    .user-panel,
+    .admin-panel,
+    .topbar-card,
+    .table-card,
+    .auth-card,
+    .modal__content,
+    .profile-hero-card,
+    .profile-summary-stat,
+    .profile-form-section,
+    .profile-sidecard,
+    .profile-sidecard__top,
+    .profile-card,
+    .seal-card,
+    .account-seal-card,
+    .admin-section,
+    .user-panel__stat,
+    .account-total,
+    .attribute-card,
+    .calculator-pill,
+    .calculator-summary-card,
+    .calculator-quiet-stat,
+    .compare-card,
+    .compare-pill,
+    .compare-attr,
+    .peer-chip,
+    .chart-section,
+    .profile-avatar-shell,
+    .user-panel__avatar-shell,
+    .admin-panel__crest,
+    .theme-pill,
+    .digimon-evolution-diagram,
+    .digimon-card__switcher,
+    .digimon-rank-option__frame,
+    .digimon-relation-tag,
+    .toast,
+    .account-manager__section,
+    .account-manager__section--danger,
+    .tamer-stage__avatar-card,
+    .tamer-stage__slot,
+    .tamer-stage-shell,
+    .tamer-summary-card,
+    .tamer-summary-block,
+    .equipment-catalog-card,
+    .equipment-card,
+    .digivice-card,
+    .title-card,
+    .import-template-card,
+    .calculator-warning,
+    .calculator-inline-note,
+    .table-wrapper,
+    .search-field,
+    .id-row,
+    .compare-peers,
+    .empty-state,
+    .level-card,
+    .modal__body,
+    .admin-user-list,
+    .user-panel__logged-copy,
+    .user-panel__form-head,
+    .chart-bar__track,
+    .chart-section__cap,
+    .meta-pill,
+    .calculator-tooltip-chip,
+    .template-account-row,
+    .calculator-summary-card--primary,
+    .calculator-quiet-stat--highlight,
+    .calculator-quiet-stat--success,
+    .select-wrapper,
+    .account-manager__warning
+),
+html[data-theme="dark"] :is(
+    .user-panel,
+    .admin-panel,
+    .topbar-card,
+    .table-card,
+    .auth-card,
+    .modal__content,
+    .profile-hero-card,
+    .profile-summary-stat,
+    .profile-form-section,
+    .profile-sidecard,
+    .profile-sidecard__top,
+    .profile-card,
+    .seal-card,
+    .account-seal-card,
+    .admin-section,
+    .user-panel__stat,
+    .account-total,
+    .attribute-card,
+    .calculator-pill,
+    .calculator-summary-card,
+    .calculator-quiet-stat,
+    .compare-card,
+    .compare-pill,
+    .compare-attr,
+    .peer-chip,
+    .chart-section,
+    .profile-avatar-shell,
+    .user-panel__avatar-shell,
+    .admin-panel__crest,
+    .theme-pill,
+    .digimon-evolution-diagram,
+    .digimon-card__switcher,
+    .digimon-rank-option__frame,
+    .digimon-relation-tag,
+    .toast,
+    .account-manager__section,
+    .account-manager__section--danger,
+    .tamer-stage__avatar-card,
+    .tamer-stage__slot,
+    .tamer-stage-shell,
+    .tamer-summary-card,
+    .tamer-summary-block,
+    .equipment-catalog-card,
+    .equipment-card,
+    .digivice-card,
+    .title-card,
+    .import-template-card,
+    .calculator-warning,
+    .calculator-inline-note,
+    .table-wrapper,
+    .search-field,
+    .id-row,
+    .compare-peers,
+    .empty-state,
+    .level-card,
+    .modal__body,
+    .admin-user-list,
+    .user-panel__logged-copy,
+    .user-panel__form-head,
+    .chart-bar__track,
+    .chart-section__cap,
+    .meta-pill,
+    .calculator-tooltip-chip,
+    .template-account-row,
+    .calculator-summary-card--primary,
+    .calculator-quiet-stat--highlight,
+    .calculator-quiet-stat--success,
+    .select-wrapper,
+    .account-manager__warning
+) {
+    background: var(--pbe-surface-strong) !important;
+    border-color: var(--pbe-border) !important;
+    backdrop-filter: blur(18px) !important;
+    border-radius: 18px !important;
+}
+
+html[data-theme="light"] :is(.hero-card, .topbar-card.app-topbar__main),
+html[data-theme="dark"] :is(.hero-card, .topbar-card.app-topbar__main) {
+    position: relative !important;
+    overflow: hidden !important;
+    background: var(--pbe-header-start) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] :is(.hero-card, .topbar-card.app-topbar__main)::before,
+html[data-theme="dark"] :is(.hero-card, .topbar-card.app-topbar__main)::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: none !important;
+    pointer-events: none !important;
+}
+
+html[data-theme="light"] :is(.hero-card, .topbar-card.app-topbar__main) :is(h1, h2, h3, h4, p, span, strong, a),
+html[data-theme="dark"] :is(.hero-card, .topbar-card.app-topbar__main) :is(h1, h2, h3, h4, p, span, strong, a) {
+    color: inherit !important;
+}
+
+html[data-theme="light"] :is(.hero-card, .topbar-card.app-topbar__main) :is(.eyebrow, .subtitle, .section-meta, #authStatus),
+html[data-theme="dark"] :is(.hero-card, .topbar-card.app-topbar__main) :is(.eyebrow, .subtitle, .section-meta, #authStatus) {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+html[data-theme="light"] .profile-hero-card :is(strong, p, span),
+html[data-theme="dark"] .profile-hero-card :is(strong, p, span) {
+    color: var(--text) !important;
+}
+
+html[data-theme="light"] .profile-hero-card .profile-hero-card__label,
+html[data-theme="dark"] .profile-hero-card .profile-hero-card__label {
+    color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] :is(.profile-avatar-shell, .user-panel__avatar-shell, .admin-panel__crest),
+html[data-theme="dark"] :is(.profile-avatar-shell, .user-panel__avatar-shell, .admin-panel__crest) {
+    background: rgba(255, 255, 255, 0.38) !important;
+}
+
+html[data-theme="light"] :is(
+    .topbar-nav,
+    .topbar-nav__link,
+    .filter-pill,
+    .tab-btn,
+    .account-tab,
+    .ghost-btn,
+    .chip-btn,
+    .icon-btn,
+    .theme-pill,
+    .peer-chip button,
+    .select-wrapper select,
+    .primary-btn,
+    .primary-btn--outline,
+    .list-pagination__button,
+    .modal__close,
+    button,
+    [type="button"],
+    [type="submit"]
+),
+html[data-theme="dark"] :is(
+    .topbar-nav,
+    .topbar-nav__link,
+    .filter-pill,
+    .tab-btn,
+    .account-tab,
+    .ghost-btn,
+    .chip-btn,
+    .icon-btn,
+    .theme-pill,
+    .peer-chip button,
+    .select-wrapper select,
+    .primary-btn,
+    .primary-btn--outline,
+    .list-pagination__button,
+    .modal__close,
+    button,
+    [type="button"],
+    [type="submit"]
+) {
+    background: var(--pbe-chip) !important;
+    color: var(--text) !important;
+    border-color: var(--pbe-border) !important;
+    border-radius: 14px !important;
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease !important;
+}
+
+html[data-theme="light"] :is(.topbar-nav, .topbar-nav__link, .filter-pill, .account-tab, .theme-pill, .meta-pill),
+html[data-theme="dark"] :is(.topbar-nav, .topbar-nav__link, .filter-pill, .account-tab, .theme-pill, .meta-pill) {
+    border-radius: 999px !important;
+}
+
+html[data-theme="light"] :is(
+    .topbar-nav__link:hover,
+    .filter-pill:hover,
+    .tab-btn:hover,
+    .account-tab:hover,
+    .ghost-btn:hover,
+    .chip-btn:hover,
+    .icon-btn:hover,
+    .theme-pill:hover,
+    .primary-btn--outline:hover,
+    .list-pagination__button:hover:not(:disabled),
+    .modal__close:hover,
+    button:hover:not(:disabled),
+    [type="button"]:hover:not(:disabled),
+    [type="submit"]:hover:not(:disabled)
+),
+html[data-theme="dark"] :is(
+    .topbar-nav__link:hover,
+    .filter-pill:hover,
+    .tab-btn:hover,
+    .account-tab:hover,
+    .ghost-btn:hover,
+    .chip-btn:hover,
+    .icon-btn:hover,
+    .theme-pill:hover,
+    .primary-btn--outline:hover,
+    .list-pagination__button:hover:not(:disabled),
+    .modal__close:hover,
+    button:hover:not(:disabled),
+    [type="button"]:hover:not(:disabled),
+    [type="submit"]:hover:not(:disabled)
+) {
+    background: var(--pbe-chip-hover) !important;
+    border-color: var(--pbe-border-strong) !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] :is(
+    .primary-btn,
+    .topbar-nav__link--active,
+    .filter-pill.active,
+    .tab-btn.active,
+    .account-tab.active,
+    .theme-pill.active,
+    .meta-pill--accent,
+    .seal-card--drag-over,
+    .digimon-rank-option input:checked + .digimon-rank-option__frame
+),
+html[data-theme="dark"] :is(
+    .primary-btn,
+    .topbar-nav__link--active,
+    .filter-pill.active,
+    .tab-btn.active,
+    .account-tab.active,
+    .theme-pill.active,
+    .meta-pill--accent,
+    .seal-card--drag-over,
+    .digimon-rank-option input:checked + .digimon-rank-option__frame
+) {
+    background: var(--primary) !important;
+    color: var(--pbe-chip-active-text) !important;
+    border-color: transparent !important;
+}
+
+html[data-theme="light"] .primary-btn:hover:not(:disabled),
+html[data-theme="dark"] .primary-btn:hover:not(:disabled) {
+    background: var(--primary) !important;
+    color: var(--pbe-chip-active-text) !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] .primary-btn--outline,
+html[data-theme="dark"] .primary-btn--outline {
+    background: transparent !important;
+    color: var(--text) !important;
+}
+
+html[data-theme="light"] :is(
+    input,
+    select,
+    textarea,
+    .form-control input,
+    .form-control select,
+    .admin-actions input,
+    .modal textarea,
+    .search-input,
+    .calculator-advanced summary,
+    .id-row input,
+    .account-tab__input,
+    .inline-quantity-input
+),
+html[data-theme="dark"] :is(
+    input,
+    select,
+    textarea,
+    .form-control input,
+    .form-control select,
+    .admin-actions input,
+    .modal textarea,
+    .search-input,
+    .calculator-advanced summary,
+    .id-row input,
+    .account-tab__input,
+    .inline-quantity-input
+) {
+    background: var(--input-bg) !important;
+    color: var(--text) !important;
+    border-color: var(--input-border) !important;
+    border-radius: 14px !important;
+}
+
+html[data-theme="light"] :is(
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .form-control input:focus,
+    .form-control select:focus,
+    .modal textarea:focus,
+    .search-input:focus
+),
+html[data-theme="dark"] :is(
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .form-control input:focus,
+    .form-control select:focus,
+    .modal textarea:focus,
+    .search-input:focus
+) {
+    outline: 2px solid var(--pbe-focus) !important;
+    outline-offset: 2px !important;
+    border-color: var(--primary) !important;
+}
+
+html[data-theme="light"] :is(thead th, .table-wrapper thead th),
+html[data-theme="dark"] :is(thead th, .table-wrapper thead th) {
+    background: var(--pbe-surface-soft) !important;
+}
+
+html[data-theme="light"] tbody tr:nth-child(even),
+html[data-theme="dark"] tbody tr:nth-child(even) {
+    background: var(--pbe-stripe) !important;
+}
+
+html[data-theme="light"] tbody tr:hover,
+html[data-theme="dark"] tbody tr:hover {
+    background: var(--surface-3) !important;
+}
+
+html[data-theme="light"] :is(.theme-toggle--floating, .admin-panel__toggle, .user-panel__toggle),
+html[data-theme="dark"] :is(.theme-toggle--floating, .admin-panel__toggle, .user-panel__toggle) {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 999px !important;
+    background: var(--pbe-floating-bg) !important;
+    border-color: var(--pbe-border) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+html[data-theme="light"] .theme-toggle--page,
+html[data-theme="dark"] .theme-toggle--page {
+    top: 20px !important;
+    right: 20px !important;
+}
+
+html[data-theme="light"] .theme-toggle-icon,
+html[data-theme="dark"] .theme-toggle-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+html[data-theme="light"] .chevron,
+html[data-theme="dark"] .chevron {
+    color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .seal-card.seal-card--maxed,
+html[data-theme="dark"] .seal-card.seal-card--maxed,
+html[data-theme="aurora"] .seal-card.seal-card--maxed {
+    border-color: rgba(34, 197, 94, 0.82) !important;
+    background: var(--card-bg) !important;
+}
+
+html[data-theme="light"] .seal-card__max-badge,
+html[data-theme="dark"] .seal-card__max-badge,
+html[data-theme="aurora"] .seal-card__max-badge {
+    border-color: rgba(187, 247, 208, 0.85) !important;
+    background: #bbf7d0 !important;
+    color: #052e16 !important;
+}

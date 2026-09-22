@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="">
+    <meta name="theme-color" content="#7c5cff">
+    <title>Calculadora de Selos - DMO</title>
+    <script>
+        if (/^https?:$/.test(location.protocol) && /\/index\.html$/i.test(location.pathname)) {
+            const cleanUrl = new URL("./", location.href);
+            cleanUrl.search = location.search;
+            cleanUrl.hash = location.hash;
+            history.replaceState(history.state, "", cleanUrl);
+        }
+    </script>
+    <link rel="icon" type="image/png" href="./assets/Seal_Opener_Icon.png">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/solid-theme.css">
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <aside class="user-panel" id="userPanel">
+        <div class="panel-orb panel-orb--user" aria-hidden="true"></div>
+        <button type="button" id="themeToggle" class="theme-pill theme-toggle theme-toggle--floating" aria-label="Alternar tema">&#9679;</button>
+        <div class="user-panel__header user-panel__header--session">
+            <div class="user-panel__avatar-shell">
+                <div class="user-panel__avatar" id="userAvatarTrigger" role="button" tabindex="0">
+                    <img id="userAvatarImg" src="./assets/Seal_Opener_Icon.png" width="72" height="72" decoding="async" alt="Avatar">
+                </div>
+            </div>
+            <div class="user-panel__identity">
+                <p class="eyebrow">Modo estático</p>
+                <h3 class="user-panel__title">Dados locais</h3>
+                <p class="user-panel__email">Seus selos e preços ficam somente neste navegador.</p>
+            </div>
+        </div>
+        <div class="user-panel__stats">
+            <article class="user-panel__stat">
+                <p class="label">Perfis de jogo</p>
+                <strong id="userProfileCount">0</strong>
+                <span>salvos neste navegador</span>
+            </article>
+        </div>
+        <div class="user-panel__actions user-panel__actions--logged hidden" id="userPanelLogged">
+            <div class="user-panel__logged-copy">
+                <strong>Backup completo</strong>
+                <span>Exporte seus perfis, selos, preços e preferências para não perder nada.</span>
+            </div>
+            <div class="user-panel__button-row">
+                <button type="button" class="ghost-btn" id="localManageProfilesButton">Perfis</button>
+                <button type="button" class="primary-btn" id="localExportButton">Exportar</button>
+                <button type="button" class="ghost-btn" id="localImportButton">Importar</button>
+                <input type="file" id="localImportInput" accept=".json,application/json" class="hidden">
+            </div>
+        </div>
+        <form id="userLoginForm" class="user-panel__form hidden">
+            <div class="user-panel__form-head">
+                <strong>Entrar</strong>
+                <span>Continue de onde parou em qualquer pagina.</span>
+            </div>
+            <label class="form-control">
+                <span>Email</span>
+                <input id="loginEmail" name="email" type="email" inputmode="email" autocomplete="section-login username" autocapitalize="none" spellcheck="false" required placeholder="voce@email.com">
+            </label>
+            <label class="form-control">
+                <span>Senha</span>
+                <input id="loginPassword" name="password" type="password" autocomplete="section-login current-password" required placeholder="Senha">
+            </label>
+            <label class="remember-field" for="loginRemember">
+                <input id="loginRemember" name="remember" type="checkbox">
+                <span>Manter-se conectado</span>
+            </label>
+            <div class="user-panel__actions">
+                <button type="button" class="ghost-btn" id="switchToRegister">Registrar</button>
+                <button type="submit" class="primary-btn">Entrar</button>
+            </div>
+            <div class="user-panel__actions">
+                <button type="button" class="ghost-btn ghost-btn--small" id="openForgotPasswordBtn">Esqueci minha senha</button>
+                <button type="button" class="ghost-btn ghost-btn--small" id="openContactBtn">Contato</button>
+            </div>
+        </form>
+        <form id="userRegisterForm" class="user-panel__form hidden">
+            <div class="user-panel__form-head">
+                <strong>Criar conta de login</strong>
+                <span>Registro simples para sincronizar seus dados.</span>
+            </div>
+            <label class="form-control">
+                <span>Email</span>
+                <input id="registerEmail" name="email" type="email" inputmode="email" autocomplete="section-register email" autocapitalize="none" spellcheck="false" required placeholder="voce@email.com">
+            </label>
+            <label class="form-control">
+                <span>Senha</span>
+                <input id="registerPassword" type="password" autocomplete="new-password" required placeholder="Mínimo 6 caracteres">
+            </label>
+            <div class="user-panel__actions">
+                <button type="button" class="ghost-btn" id="switchToLogin">Já tenho conta</button>
+                <label class="remember-field" for="registerRemember">
+                    <input id="registerRemember" name="remember" type="checkbox">
+                    <span>Manter-se conectado</span>
+                </label>
+                <button type="submit" class="primary-btn">Registrar</button>
+            </div>
+            <div class="user-panel__actions">
+                <button type="button" class="ghost-btn ghost-btn--small" id="openContactBtnRegister">Contato</button>
+            </div>
+        </form>
+    </aside>
+    <button id="userPanelToggle" class="user-panel__toggle" aria-label="Abrir painel de usuário">☰</button>
+
+    
+    <div class="page page--seals">
+        <header class="seals-hero app-topbar app-topbar--split">
+            <div class="topbar-card app-topbar__main">
+            <div class="seals-hero__text app-topbar__brand">
+                <p class="eyebrow">Selos</p>
+                <h1>Ferramentas</h1>
+                <p class="subtitle hidden">
+                    Use a aba Configurações de Selos para cadastrar os valores padrao de cada seal.
+                    Em Meu Selos selecione o perfil de jogo e informe quantos selos você possui para que o bonus seja calculado.
+                </p>
+            </div>
+            </div>
+            <div class="topbar-card app-topbar__secondary">
+                <div class="topbar-tools topbar-tools--accounts">
+                <div id="accountTabs" class="account-tabs">
+                    
+                        
+            
+        </div>
+        <button id="openAccountManager" class="icon-btn" type="button" aria-label="Abrir configuracoes dos perfis de jogo">
+            <span class="icon-gear">&#9881;</span>
+        </button>
+        </div>
+    </div>
+</header>
+
+        <div class="attribute-bar" id="attributeStats" data-attribute-stats>
+            
+            <article class="attribute-card" data-attribute="AT">
+                <p class="attribute-card__label">AT</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="CT">
+                <p class="attribute-card__label">CT</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="HT">
+                <p class="attribute-card__label">HT</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="HP">
+                <p class="attribute-card__label">HP</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="DS">
+                <p class="attribute-card__label">DS</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="DE">
+                <p class="attribute-card__label">DE</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="BL">
+                <p class="attribute-card__label">BL</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+            <article class="attribute-card" data-attribute="EV">
+                <p class="attribute-card__label">EV</p>
+                <strong class="attribute-card__value">--</strong>
+                <span class="attribute-card__progress" data-attribute-progress>-- / --</span>
+                <span class="attribute-card__meta">0 Selos</span>
+                <div class="attribute-card__currency" data-attribute-currency>
+                    <img class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                    <span class="currency-text">--</span>
+                </div>
+            </article>
+            
+        </div>
+
+        <div class="tab-row">
+            <button class="tab-btn active" data-tab="calculator">Calculadora</button>
+            <button class="tab-btn" data-tab="templates">Configurações de Selo</button>
+            <button class="tab-btn" data-tab="account">Meus Selos (<span id="mySealsTabCount">0</span>)</button>
+        </div>
+
+        <div class="filters-row">
+            <div class="attribute-filter" id="attributeFilter">
+                <button type="button" class="filter-pill active" data-attribute="TODOS">TODOS</button>
+                
+                <button type="button" class="filter-pill" data-attribute="AT">AT</button>
+                
+                <button type="button" class="filter-pill" data-attribute="CT">CT</button>
+                
+                <button type="button" class="filter-pill" data-attribute="HT">HT</button>
+                
+                <button type="button" class="filter-pill" data-attribute="HP">HP</button>
+                
+                <button type="button" class="filter-pill" data-attribute="DS">DS</button>
+                
+                <button type="button" class="filter-pill" data-attribute="DE">DE</button>
+                
+                <button type="button" class="filter-pill" data-attribute="BL">BL</button>
+                
+                <button type="button" class="filter-pill" data-attribute="EV">EV</button>
+                
+            </div>
+            <div class="attribute-filter attribute-filter--servers" id="serverTabs">
+            </div>
+            <div class="search-field">
+                <span class="search-icon">&#128269;</span>
+                <input id="templateSearchInput" class="search-input" type="search" placeholder="Buscar Selos">
+            </div>
+        </div>
+
+        <section id="calculatorSection" class="tab-panel active">
+            <div class="table-card calculator-card">
+                <div class="section-head calculator-head">
+                    <div>
+                        <p class="eyebrow">Planejamento</p>
+                        <h2>Calculadora</h2>
+                        <p class="section-meta">
+                            Informe o atributo e o valor alvo para descobrir quantos selos e openers precisa juntar.
+                        </p>
+                    </div>
+                    <div class="calculator-head__stats">
+                        <div class="meta-pill">
+                            <span>Perfil de jogo ativo</span>
+                            <strong id="calculatorAccountLabel">Nenhuma</strong>
+                        </div>
+                        <div class="meta-pill meta-pill--accent">
+                            <span>Openers</span>
+                            <strong id="calculatorOpenersTotal">--</strong>
+                        </div>
+                    </div>
+                </div>
+                <form id="calculatorForm" class="calculator-form">
+                    <div class="calculator-primary">
+                        <label class="form-control">
+                            <span>Atributo</span>
+                            <select id="calculatorAttributeSelect">
+                                
+                                <option value="AT">AT</option>
+                                
+                                <option value="HT">HT</option>
+                                
+                                <option value="DE">DE</option>
+                                
+                                <option value="HP">HP</option>
+                                
+                                <option value="DS">DS</option>
+                                
+                                <option value="EV">EV</option>
+                                
+                                <option value="CT">CT</option>
+                                
+                                <option value="BL">BL</option>
+                                
+                            </select>
+                        </label>
+                        <label class="form-control">
+                            <span>Status desejado</span>
+                            <input id="calculatorTargetInput" type="number" min="0" step="0.01" placeholder="Ex.: 1500">
+                        </label>
+                        <button class="primary-btn calculator-submit-btn" type="submit">Calcular plano</button>
+                    </div>
+                    <details class="calculator-advanced">
+                        <summary class="calculator-advanced__summary">
+                            <span>Mais filtros</span>
+                            <small>Openers, gold, estrategia e limite</small>
+                        </summary>
+                        <div class="form-grid calculator-grid calculator-grid--advanced">
+                        <label class="form-control">
+                            <span>Openers que você tem</span>
+                            <input id="calculatorOpenersInput" type="number" min="0" step="1" placeholder="Ex.: 10">
+                        </label>
+                        <label class="form-control">
+                            <span>Gold por opener</span>
+                            <input id="calculatorOpenerPriceInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 5M, 1,5T ou 750B">
+                            <small id="calculatorOpenerPriceHint" class="form-control__hint">Aceita B, M ou T. Sem unidade, assume Mega.</small>
+                        </label>
+                        <label class="form-control">
+                            <span>Otimizar por</span>
+                            <select id="calculatorStrategySelect">
+                                <option value="auto">Menor custo exato</option>
+                                <option value="seals">Menos selos</option>
+                                <option value="openers">Menos openers</option>
+                            </select>
+                        </label>
+                        <label class="calculator-toggle" for="calculatorBudgetToggle">
+                            <input id="calculatorBudgetToggle" type="checkbox">
+                            <span>
+                                <strong>Considerar meu gold</strong>
+                                <small>Limita o plano ao gold que você informar abaixo.</small>
+                            </span>
+                        </label>
+                        <label class="form-control">
+                            <span>Gold que você tem</span>
+                            <input id="calculatorBudgetInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 5000, 1,5T ou 250M">
+                            <small id="calculatorBudgetHint" class="form-control__hint">Aceita B, M ou T. Sem unidade, assume Mega.</small>
+                        </label>
+                        <div class="calculator-hint">
+                            <p class="calculator-hint__label">Usa o progresso do perfil de jogo selecionado em Meus Selos.</p>
+                            <p class="calculator-hint__note">Cada aplicacao usa 1 opener para ate 50 selos do mesmo tipo. Se você voltar depois para completar o mesmo selo, gasta outro opener.</p>
+                            <p class="calculator-hint__note">1 opener = 50 selos. Considera os openers já disponíveis e o custo para comprar mais.</p>
+                        </div>
+                        </div>
+                    </details>
+                    <div class="calculator-pills calculator-pills--subtle">
+                        <div class="calculator-pill">
+                            <p class="calculator-pill__label">Status atual</p>
+                            <p id="calculatorCurrentStat" class="calculator-pill__value">--</p>
+                        </div>
+                    </div>
+                </form>
+                <div id="calculatorResults" class="calculator-results empty-state">
+                    Escolha um atributo e informe o valor alvo para montar o plano.
+                </div>
+            </div>
+        </section>
+
+        <section id="templatesSection" class="tab-panel">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Calculadora</p>
+                    <h2>Selos</h2>
+                    <p id="templateStats" class="section-meta">Configurações de Selos (0 Selos)</p>
+                </div>
+                <div class="section-head__actions">
+                    <button id="toggleSimpleCardsBtn" class="chip-btn" type="button" aria-pressed="false">Modo simples</button>
+                    <button id="toggleHideMaxedSealsBtn" class="chip-btn" type="button" aria-pressed="false">Ocultar max.</button>
+                    <div id="templateAdminActions" class="admin-actions admin-actions--stacked admin-only hidden">
+                        <button id="openSealModal" class="primary-btn hidden" type="button">Adicionar Selo</button>
+                        <button id="openImportSealsModal" class="ghost-btn" type="button">Importar Selos</button>
+                    </div>
+                </div>
+            </div>
+            <div id="templateList" class="seals-grid empty-state">
+                Nenhum Selo cadastrado ainda.
+            </div>
+            <div id="templatePager" class="list-pagination hidden" aria-label="Paginacao dos selos"></div>
+        </section>
+
+        <section id="accountSection" class="tab-panel">
+            <div class="table-card account-panel">
+            <div class="section-head account-head">
+                    <div>
+                        <p class="eyebrow">Meus Selos</p>
+                        <h2>Meus Selos</h2>
+                        <p class="section-meta">
+                            Associe os Selos a um perfil de jogo para visualizar os bonus configurados.
+                        </p>
+                    </div>
+                    <div class="account-head__actions">
+                        <div class="account-total" id="accountTotalGold">
+                            <div class="account-total__label">Gold total investido</div>
+                            <div class="account-total__value">
+                                <img id="accountTotalGoldIcon" class="currency-icon" width="20" height="20" loading="lazy" decoding="async" alt="">
+                                <span id="accountTotalGoldText" class="currency-text">--</span>
+                            </div>
+                        </div>
+                        <button id="toggleSimpleCardsAccountBtn" class="chip-btn" type="button" aria-pressed="false">Modo simples</button>
+                        <button id="toggleHideMaxedSealsAccountBtn" class="chip-btn" type="button" aria-pressed="false">Ocultar max.</button>
+                        <span id="mySealCountBadge" class="meta-pill meta-pill--accent">0 selos</span>
+                        <button id="exportMySealsPdf" class="ghost-btn" type="button">Baixar PDF</button>
+                        <button id="openAccountSealModal" class="primary-btn" type="button">+ Adicionar selo</button>
+                    </div>
+                </div>
+                <div id="accountSealList" class="seals-grid empty-state">
+                    Adicione quantidades de selos para este perfil de jogo.
+                </div>
+                <div id="accountPager" class="list-pagination hidden" aria-label="Paginacao dos meus selos"></div>
+            </div>
+        </section>
+    </div>
+
+    <div id="globalLoader" class="loader hidden">
+        <div class="loader__spinner"></div>
+        <p>Processando...</p>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <div id="accountManagerModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="accountManagerTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Perfis de jogo</p>
+            <h3 id="accountManagerTitle">Gerenciar perfis de jogo</h3>
+            <div class="modal__body account-manager">
+                <section class="account-manager__section">
+                    <div class="account-manager__header">
+                        <h4>Renomear perfil de jogo</h4>
+                        <p class="section-meta">Atualiza o nome em Meus Selos, preços e configurações salvas.</p>
+                    </div>
+                    <form id="renameAccountForm" class="modal__form account-manager__form">
+                        <div class="form-grid">
+                            <label class="form-control">
+                                <span>Perfil de jogo atual</span>
+                                <select id="renameAccountSelect" required></select>
+                            </label>
+                            <label class="form-control">
+                                <span>Novo nome</span>
+                                <input id="renameAccountInput" type="text" placeholder="Informe o novo nome" required>
+                            </label>
+                        </div>
+                        <div class="modal__actions">
+                            <button type="submit" class="primary-btn">Renomear</button>
+                        </div>
+                    </form>
+                </section>
+                <section class="account-manager__section account-manager__section--danger">
+                    <div class="account-manager__header">
+                        <h4>Excluir perfil de jogo</h4>
+                        <p class="section-meta">Remove os selos, preços e configurações vinculados ao perfil.</p>
+                    </div>
+                    <form id="deleteAccountForm" class="modal__form account-manager__form">
+                        <label class="form-control">
+                            <span>Perfil de jogo para excluir</span>
+                            <select id="deleteAccountSelect" required></select>
+                        </label>
+                        <p class="account-manager__warning">A exclusao e definitiva. Confirme antes de continuar.</p>
+                        <div class="modal__actions">
+                            <button type="submit" class="ghost-btn ghost-btn--danger">Excluir perfil de jogo</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="sealModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="sealModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <div class="modal__header modal__header--with-action">
+                <div>
+                    <p class="eyebrow">Selo</p>
+                    <h3 id="sealModalTitle">Adicionar Selo</h3>
+                    <p id="sealPatternHint" class="section-meta seal-pattern-hint"></p>
+                </div>
+                
+            </div>
+            <form id="sealForm" class="modal__form">
+                <div class="form-grid">
+                    <label class="form-control">
+                        <span>Nome do seal</span>
+                        <input id="sealNameInput" type="text" placeholder="Ex.: AT Offensive" required>
+                    </label>
+                    <label class="form-control">
+                        <span>Atributo</span>
+                        <select id="sealAttributeSelect" required>
+                            
+                            <option value="AT">AT</option>
+                            
+                            <option value="HT">HT</option>
+                            
+                            <option value="DE">DE</option>
+                            
+                            <option value="HP">HP</option>
+                            
+                            <option value="DS">DS</option>
+                            
+                            <option value="EV">EV</option>
+                            
+                            <option value="CT">CT</option>
+                            
+                            <option value="BL">BL</option>
+                            
+                        </select>
+                    </label>
+                </div>
+                <label class="form-control">
+                    <span>Valor maximo (100%)</span>
+                    <input id="sealBaseValueInput" type="number" step="0.01" placeholder="Valor entregue no nivel maximo" required>
+                </label>
+                <div class="level-grid" id="sealLevelGrid">
+                    
+                    <div class="level-card" data-level="Normal">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Normal</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Normal"
+                                    placeholder="1"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Normal"
+                                    placeholder="10"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Normal" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-level="Bronze">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Bronze</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Bronze"
+                                    placeholder="50"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Bronze"
+                                    placeholder="20"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Bronze" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-level="Prata">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Prata</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Prata"
+                                    placeholder="200"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Prata"
+                                    placeholder="40"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Prata" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-level="Ouro">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Ouro</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Ouro"
+                                    placeholder="500"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Ouro"
+                                    placeholder="60"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Ouro" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-level="Platina">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Platina</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Platina"
+                                    placeholder="1000"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Platina"
+                                    placeholder="80"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Platina" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-level="Master">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Master</p>
+                            <span class="level-card__hint">Quantidade, percentual e valor</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-level-field="threshold"
+                                    data-level="Master"
+                                    placeholder="3000"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-level-field="percentage"
+                                    data-level="Master"
+                                    placeholder="100"
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Valor</span>
+                                <input type="number" step="0.01" data-level-field="value" data-level="Master" placeholder="Calculado automaticamente">
+                            </label>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Salvar selo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="sealDefaultsModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="sealDefaultsModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content modal__content--wide">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Padrao Global</p>
+            <h3 id="sealDefaultsModalTitle">Configuracao de Selos</h3>
+            <p class="section-meta">
+                Defina varios padroes. No modal de selo, ao informar a quantidade do nivel que fecha em 100%, o sistema tenta detectar e aplicar o padrao correspondente.
+            </p>
+            <form id="sealDefaultsForm" class="modal__form">
+                <div class="seal-defaults-toolbar">
+                    <label class="form-control">
+                        <span>Padrao salvo</span>
+                        <select id="sealDefaultsPatternSelect"></select>
+                    </label>
+                    <label class="form-control">
+                        <span>Nome do padrao</span>
+                        <input id="sealDefaultsPatternName" type="text" maxlength="60" placeholder="Ex.: Padrao 3000">
+                    </label>
+                    <div class="seal-defaults-toolbar__actions">
+                        <button id="createSealDefaultPatternBtn" type="button" class="ghost-btn">Novo padrão</button>
+                        <button id="deleteSealDefaultPatternBtn" type="button" class="ghost-btn ghost-btn--danger">X</button>
+                    </div>
+                </div>
+                <p class="section-meta">O padrao selecionado sera usado como padrao inicial ao abrir "Adicionar Selo".</p>
+                <div class="level-grid">
+                    
+                    <div class="level-card" data-default-level="Normal">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Normal</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold0"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Normal"
+                                    value="1"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage0"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Normal"
+                                    value="10"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-default-level="Bronze">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Bronze</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold1"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Bronze"
+                                    value="50"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage1"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Bronze"
+                                    value="20"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-default-level="Prata">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Prata</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold2"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Prata"
+                                    value="200"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage2"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Prata"
+                                    value="40"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-default-level="Ouro">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Ouro</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold3"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Ouro"
+                                    value="500"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage3"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Ouro"
+                                    value="60"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-default-level="Platina">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Platina</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold4"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Platina"
+                                    value="1000"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage4"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Platina"
+                                    value="80"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="level-card" data-default-level="Master">
+                        <div class="level-card__header">
+                            <p class="level-card__title">Master</p>
+                            <span class="level-card__hint">Padrao global</span>
+                        </div>
+                        <div class="level-card__body">
+                            <label class="form-control">
+                                <span>Qtd. de selos</span>
+                                <input
+                                    id="sealDefaultThreshold5"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    data-default-level-field="threshold"
+                                    data-default-level="Master"
+                                    value="3000"
+                                    required
+                                >
+                            </label>
+                            <label class="form-control">
+                                <span>Percentual (%)</span>
+                                <input
+                                    id="sealDefaultPercentage5"
+                                    type="number"
+                                    min="0"
+                                    max="200"
+                                    step="0.01"
+                                    data-default-level-field="percentage"
+                                    data-default-level="Master"
+                                    value="100"
+                                    required
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal__actions modal__actions--between">
+                    <button id="resetSealDefaultsBtn" type="button" class="ghost-btn">Restaurar padrao</button>
+                    <div class="modal__actions-group">
+                        <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                        <button type="submit" class="primary-btn">Salvar padrao</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="goldModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="goldModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Gold por seal</p>
+            <h3 id="goldModalTitle">Editar gold</h3>
+            <form id="goldModalForm" class="modal__form">
+                <label class="form-control">
+                    <span>Gold por seal</span>
+                    <div class="gold-input-row">
+                        <input id="goldModalCostInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 50M, 1,5T ou 750B">
+                    </div>
+                    <small id="goldModalCostHint" class="form-control__hint">Aceita B, M ou T. Sem unidade, assume Mega.</small>
+                </label>
+                <div id="goldModalAdminSource" class="gold-sync-source hidden">
+                    <div class="form-grid gold-sync-source__grid">
+                        <label class="form-control">
+                            <span>Usuario origem</span>
+                            <input
+                                id="goldModalSourceUserInput"
+                                list="goldModalSourceUserOptions"
+                                type="search"
+                                autocomplete="off"
+                                placeholder="Email do usuario"
+                            >
+                            <datalist id="goldModalSourceUserOptions"></datalist>
+                        </label>
+                        <label class="form-control">
+                            <span>Perfil de jogo origem</span>
+                            <input
+                                id="goldModalSourceAccountInput"
+                                list="goldModalSourceAccountOptions"
+                                type="search"
+                                autocomplete="off"
+                                placeholder="Perfil de jogo do usuario"
+                            >
+                            <datalist id="goldModalSourceAccountOptions"></datalist>
+                        </label>
+                    </div>
+                    <small class="form-control__hint">Admin: pode puxar este selo de um perfil de jogo especifico ou puxar todos os selos do usuario no servidor atual.</small>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button id="goldModalSyncBtn" class="ghost-btn hidden" type="button">Usar meu gold no global</button>
+                    <button id="goldModalSyncAllBtn" class="ghost-btn hidden" type="button">Puxar todos do usuario</button>
+                    <button type="submit" class="primary-btn">Salvar valor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="importSealsModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="importSealsModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Importar Selos</p>
+            <h3 id="importSealsModalTitle">Importar Selos do Excel</h3>
+            <form id="importSealsForm" class="modal__form">
+                <label class="form-control">
+                    <span>Atributo</span>
+                    <select id="importSealsAttributeSelect" required>
+                        
+                        <option value="AT">AT</option>
+                        
+                        <option value="HT">HT</option>
+                        
+                        <option value="DE">DE</option>
+                        
+                        <option value="HP">HP</option>
+                        
+                        <option value="DS">DS</option>
+                        
+                        <option value="EV">EV</option>
+                        
+                        <option value="CT">CT</option>
+                        
+                        <option value="BL">BL</option>
+                        
+                    </select>
+                </label>
+                <label class="form-control">
+                    <span>Servidor</span>
+                    <select id="importSealsServerSelect" required>
+                        
+                        <option value="la">LA</option>
+                        
+                        <option value="na">NA</option>
+                        
+                        <option value="kdmo">KDMO</option>
+                        
+                    </select>
+                </label>
+                <label class="form-control">
+                    <span>Arquivo Excel</span>
+                    <input id="importSealsFileInput" type="file" accept=".xlsx,.xls" required>
+                </label>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Importar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <template id="sealOcrModalTemplate">
+        <div id="sealOcrModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="sealOcrModalTitle">
+            <div class="modal__backdrop" data-close-modal></div>
+            <div class="modal__content modal__content--wide">
+                <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+                <p class="eyebrow">OCR</p>
+                <h3 id="sealOcrModalTitle">Ler tabela da loja</h3>
+                <form id="sealOcrForm" class="modal__form">
+                    <label class="form-control">
+                        <span>Imagem da tabela</span>
+                        <input type="file" id="sealOcrFileInput" accept="image/png,image/jpeg,image/webp">
+                    </label>
+                    <div id="sealOcrCaptureArea" class="ocr-capture hidden">
+                        <div class="ocr-capture__toolbar">
+                            <span>Arraste para recortar a tabela capturada.</span>
+                            <button type="button" class="ghost-btn" id="sealOcrClearCaptureBtn">Limpar captura</button>
+                        </div>
+                        <div id="sealOcrCaptureWrap" class="ocr-capture__wrap">
+                            <canvas id="sealOcrCaptureCanvas"></canvas>
+                            <div id="sealOcrCaptureSelection" class="ocr-capture__selection hidden"></div>
+                        </div>
+                    </div>
+                    <div class="modal__actions">
+                        <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                        <button type="button" class="ghost-btn" id="sealOcrCaptureBtn">Capturar tela</button>
+                        <button type="submit" class="primary-btn">Ler tabela</button>
+                    </div>
+                </form>
+                <div id="sealOcrResults" class="modal__body ocr-results empty-state">
+                    Envie um print da loja para detectar nomes, quantidades e precos.
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <div id="accountSealModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="accountSealModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Meus Selos</p>
+            <h3 id="accountSealModalTitle">Vincular Seal ao perfil de jogo</h3>
+            <form id="accountSealForm" class="modal__form">
+                <label class="form-control">
+                    <span>Perfil de jogo</span>
+                    <input id="accountSealAccountInput" list="sealAccountOptions" placeholder="Selecione ou digite o perfil de jogo" required>
+                    <datalist id="sealAccountOptions">
+                        
+                    </datalist>
+                </label>
+                <label class="form-control">
+                    <span>Seal</span>
+                    <select id="accountSealTemplateSelect" required></select>
+                </label>
+                <label class="form-control">
+                    <span>Quantidade de selos</span>
+                    <input id="accountSealQuantityInput" type="number" min="0" step="1" placeholder="Ex.: 2500 (0 remove)" required>
+                </label>
+                <label class="form-control">
+                    <span>Gold por Seal (em Mega) — opcional</span>
+                    <input id="accountSealUnitCostInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 5,5M, 1T ou 750B">
+                    <small id="accountSealUnitCostHint" class="form-control__hint">Aceita B, M ou T. Sem unidade, assume Mega.</small>
+                </label>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Salvar My Seal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="userListModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="userListTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content modal__content--wide">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Admin</p>
+            <h3 id="userListTitle">Usuários registrados</h3>
+            <div id="userListBody" class="modal__body admin-user-list">
+                Carregando...
+            </div>
+        </div>
+    </div>
+
+    <div id="forgotPasswordModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="forgotPasswordTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Recuperação</p>
+            <h3 id="forgotPasswordTitle">Recuperar senha</h3>
+            <form id="forgotPasswordForm" class="modal__form">
+                <label class="form-control">
+                    <span>Email da conta</span>
+                    <input id="forgotPasswordEmailInput" type="email" inputmode="email" autocomplete="email" placeholder="voce@email.com" required>
+                </label>
+                <p class="section-meta">Enviamos um link de redefinição para o e-mail informado.</p>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Enviar link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="contactModalTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Contato</p>
+            <h3 id="contactModalTitle">Fale com a equipe</h3>
+            <form id="contactForm" class="modal__form">
+                <label class="form-control">
+                    <span>Nome</span>
+                    <input id="contactNameInput" type="text" placeholder="Seu nome" required>
+                </label>
+                <label class="form-control">
+                    <span>Email</span>
+                    <input id="contactEmailInput" type="email" inputmode="email" autocomplete="email" placeholder="voce@email.com" required>
+                </label>
+                <label class="form-control">
+                    <span>Assunto</span>
+                    <input id="contactSubjectInput" type="text" placeholder="Como podemos ajudar?" required>
+                </label>
+                <label class="form-control">
+                    <span>Mensagem</span>
+                    <textarea id="contactMessageInput" rows="5" placeholder="Descreva o que você precisa." required></textarea>
+                </label>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Enviar mensagem</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminEmailNoticeModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="adminEmailNoticeTitle">
+        <div class="modal__backdrop" data-close-modal></div>
+        <div class="modal__content">
+            <button class="modal__close" type="button" data-close-modal aria-label="Fechar janela">&times;</button>
+            <p class="eyebrow">Painel do Admin</p>
+            <h3 id="adminEmailNoticeTitle">Enviar aviso por e-mail</h3>
+            <form id="adminEmailNoticeForm" class="modal__form">
+                <label class="form-control">
+                    <span>Email de destino</span>
+                    <input id="adminEmailNoticeToInput" type="email" inputmode="email" autocomplete="off" placeholder="usuario@email.com" required>
+                </label>
+                <label class="form-control">
+                    <span>Assunto</span>
+                    <input id="adminEmailNoticeSubjectInput" type="text" placeholder="Assunto do aviso" required>
+                </label>
+                <label class="form-control">
+                    <span>Mensagem</span>
+                    <textarea id="adminEmailNoticeMessageInput" rows="6" placeholder="Mensagem do sistema" required></textarea>
+                </label>
+                <label class="form-control">
+                    <span>Link de ação (opcional)</span>
+                    <input id="adminEmailNoticeActionUrlInput" type="url" placeholder="https://urxios.com/seals">
+                </label>
+                <label class="form-control">
+                    <span>Texto do botão (opcional)</span>
+                    <input id="adminEmailNoticeActionLabelInput" type="text" placeholder="Abrir a wiki">
+                </label>
+                <div class="modal__actions">
+                    <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+                    <button type="submit" class="primary-btn">Enviar aviso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.APP_CONFIG = {
+            staticMode: true,
+            accounts: ["Meu Perfil"],
+            defaultAccount: "Meu Perfil",
+            sealLevels: ["Normal","Bronze","Prata","Ouro","Platina","Master"],
+            sealAttributes: ["AT","HT","DE","HP","DS","EV","CT","BL"],
+            sealDefaults: {"activePatternId":"pattern-3000","patterns":[{"id":"pattern-3000","name":"3000","thresholds":{"Normal":1,"Bronze":50,"Prata":200,"Ouro":500,"Platina":1000,"Master":3000},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772936486576-7t2z51","name":"700","thresholds":{"Normal":1,"Bronze":30,"Prata":150,"Ouro":300,"Platina":500,"Master":700},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772937877550-soujbe","name":"1000","thresholds":{"Normal":1,"Bronze":50,"Prata":200,"Ouro":500,"Platina":700,"Master":1000},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772938002456-94h9es","name":"500","thresholds":{"Normal":1,"Bronze":30,"Prata":100,"Ouro":200,"Platina":350,"Master":500},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772938112855-avelsl","name":"400","thresholds":{"Normal":1,"Bronze":30,"Prata":100,"Ouro":150,"Platina":250,"Master":400},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772938159683-vh80sz","name":"50","thresholds":{"Normal":1,"Bronze":3,"Prata":6,"Ouro":12,"Platina":24,"Master":50},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772938231799-oqo9r0","name":"100","thresholds":{"Normal":1,"Bronze":25,"Prata":50,"Ouro":75,"Platina":90,"Master":100},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1772989327460-ijjgs3","name":"300","thresholds":{"Normal":1,"Bronze":30,"Prata":100,"Ouro":150,"Platina":200,"Master":300},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}},{"id":"seal-pattern-1776746472581-ji4q3g","name":"150","thresholds":{"Normal":1,"Bronze":10,"Prata":30,"Ouro":50,"Platina":100,"Master":150},"percentages":{"Normal":10,"Bronze":20,"Prata":40,"Ouro":60,"Platina":80,"Master":100}}]},
+            goldUnits: [{"key":"T","label":"Tera","factor":1000000,"icon":"Currency_Tera.png"},{"key":"M","label":"Mega","factor":1000,"icon":"Currency_Mega.png"},{"key":"B","label":"Bit","factor":1,"icon":"Currency_Bit.png"}],
+            defaultGoldUnit: "M",
+            servers: [{"key":"la","label":"LA","position":1},{"key":"na","label":"NA","position":2},{"key":"kdmo","label":"KDMO","position":3}],
+            defaultServer: "la",
+            currencyBasePath: "./assets",
+            adminEmail: "admin@local.test",
+            emailEnabled: false,
+            is_admin: false,
+            auth: {"authenticated":true,"userId":"local","baseUserId":"local","impersonating":false,"isAdmin":false,"email":"local@navegador","displayName":"Dados locais","emailVerified":true},
+            initialSealPayload: {"templates":[{"c":1,"id":2,"n":"Guilmon","a":"AT","b":150,"u":7000,"us":{"la":7000,"na":10000},"o":1,"l":[[1,10,15],[50,20,30],[200,40,60],[500,60,90],[1000,80,120],[3000,100,150]]},{"c":1,"id":3,"n":"Devimon","a":"AT","b":200,"u":2000,"us":{"la":2000,"na":9000},"o":2,"l":[[1,10,20],[50,20,40],[200,40,80],[500,60,120],[1000,80,160],[3000,100,200]]},{"c":1,"id":4,"n":"Patamon","a":"AT","b":150,"u":1000,"us":{"la":1000,"na":1000},"o":3,"l":[[1,10,15],[50,20,30],[200,40,60],[500,60,90],[1000,80,120],[3000,100,150]]},{"c":1,"id":5,"n":"Giromon","a":"AT","b":250,"u":7000,"us":{"la":7000,"na":880},"o":4,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":6,"n":"Qinglongmon","a":"AT","b":300,"u":17000,"us":{"la":17000,"na":15000},"o":5,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":7,"n":"Examon","a":"AT","b":300,"u":3000000,"us":{"la":3000000,"na":2000000},"o":6,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":8,"n":"Tanemon","a":"AT","b":100,"u":2000,"us":{"la":2000,"na":4000},"o":7,"l":[[1,10,10],[50,20,20],[200,40,40],[500,60,60],[1000,80,80],[3000,100,100]]},{"c":1,"id":9,"n":"Mushroomon","a":"AT","b":150,"u":1900,"us":{"la":1900,"na":1000},"o":8,"l":[[1,10,15],[50,20,30],[200,40,60],[500,60,90],[1000,80,120],[3000,100,150]]},{"c":1,"id":10,"n":"Chrysalimon","a":"AT","b":200,"u":4000,"us":{"la":4000,"na":1000},"o":9,"l":[[1,10,20],[50,20,40],[200,40,80],[500,60,120],[1000,80,160],[3000,100,200]]},{"c":1,"id":11,"n":"Garurumon(Black)","a":"AT","b":200,"u":6000,"us":{"la":6000,"na":23000},"o":10,"l":[[1,10,20],[50,20,40],[200,40,80],[500,60,120],[1000,80,160],[3000,100,200]]},{"c":1,"id":12,"n":"Cherrymon","a":"AT","b":250,"u":1000,"us":{"la":1000,"na":1000},"o":11,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":13,"n":"Marin Devimon","a":"AT","b":250,"u":16000,"us":{"la":16000,"na":43000},"o":12,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":14,"n":"Dexmon","a":"AT","b":300,"u":399000,"us":{"la":399000,"na":950000},"o":13,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":15,"n":"Omegamon","a":"AT","b":300,"u":7500000,"us":{"la":7500000,"na":9899000},"o":14,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":16,"n":"Myotismon","a":"AT","b":250,"u":389000,"us":{"la":389000,"na":890000},"o":15,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":17,"n":"Venom Vamdemon","a":"AT","b":300,"u":0,"us":{"la":0,"na":9000000},"o":16,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":18,"n":"Culumon","a":"AT","b":250,"u":10000000,"us":{"la":10000000,"na":10000000},"o":17,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":19,"n":"Orochimon","a":"AT","b":250,"u":500000,"us":{"la":500000,"na":1900000},"o":18,"l":[[1,10,25],[50,20,50],[200,40,100],[500,60,150],[1000,80,200],[3000,100,250]]},{"c":1,"id":20,"n":"Monodramon","a":"AT","b":150,"u":0,"us":{"la":0,"na":50000},"o":19,"l":[[1,10,15],[50,20,30],[200,40,60],[500,60,90],[1000,80,120],[3000,100,150]]},{"c":1,"id":21,"n":"Megidramon","a":"AT","b":300,"u":200000,"us":{"la":200000,"na":167000},"o":20,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":22,"n":"10 Year / 2 ano","a":"AT","b":300,"u":0,"us":{"la":0},"o":21,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":23,"n":"MugenDramon","a":"AT","b":300,"u":10000000,"us":{"la":10000000,"na":14999000},"o":22,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":24,"n":"Chaosmon","a":"AT","b":300,"u":10000000,"us":{"la":10000000,"na":11999000},"o":23,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]},{"c":1,"id":25,"n":"MirageGaogamon BurstMode","a":"AT","b":300,"u":1000000,"us":{"la":1000000,"na":13000000},"o":24,"l":[[1,10,30],[50,20,60],[200,40,120],[500,60,180],[1000,80,240],[3000,100,300]]}],"pagination":{"page":1,"currentPage":1,"pageSize":24,"total":300,"totalItems":300,"totalPages":13,"startIndex":0,"endIndex":24},"catalogComplete":false,"levels":["Normal","Bronze","Prata","Ouro","Platina","Master"],"attributes":["AT","HT","DE","HP","DS","EV","CT","BL"],"servers":[{"key":"la","label":"LA","position":1},{"key":"na","label":"NA","position":2},{"key":"kdmo","label":"KDMO","position":3}],"defaultServer":"la","serverKey":"la"},
+            assets: {
+                sealOcrJs: "",
+                sealOcrCss: ""
+            }
+        };
+    </script>
+    <script src="./assets/planner.js"></script>
+    <script src="./assets/catalog.js"></script>
+    <script src="./assets/local-api.js"></script>
+    <script src="./assets/csrf.js"></script>
+    <script src="./assets/theme.js"></script>
+    <script src="./assets/core.js"></script>
+    <script src="./assets/seal-card-date.js"></script>
+    <script src="./assets/seals-pdf.js"></script>
+    <script src="./assets/seals.js"></script>
+    <script src="./register-sw.js"></script>
+</body>
+</html>
