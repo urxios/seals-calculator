@@ -38,14 +38,3 @@ No projeto original, selecione um perfil na aba **Meus Selos** e clique em **Exp
 
 Os dados de cada selo ficam em `data/seals.json`. Depois de alterar esse arquivo, rode `npm run build:catalog`; isso gera o JavaScript estático que o navegador consegue carregar tanto no GitHub Pages quanto por duplo clique.
 Para um selo novo, preencha também `createdAt` com a data e hora de cadastro em UTC (por exemplo, `2026-09-21T18:30:00Z`); ela aparece discretamente no card, com o horário convertido para UTC-3 ao passar o mouse.
-
-## Publicar no GitHub Pages
-
-1. Crie um repositório no GitHub.
-2. Envie todo o conteúdo desta pasta para a branch `main`.
-3. No repositório, abra **Settings → Pages**.
-4. Em **Source**, escolha **GitHub Actions**.
-5. Aguarde o workflow **Test and deploy GitHub Pages**.
-
-O endereço será `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`. Todos os caminhos são relativos, então não é preciso alterar o código quando mudar o nome do repositório.
-O navegador mostra apenas esse endereço, sem `index.html`; mesmo que alguém abra o link com `/index.html`, a barra de endereço é corrigida. Ao abrir o arquivo diretamente por `file://`, o nome `index.html` continua visível porque não há servidor para fornecer uma URL de diretório.
